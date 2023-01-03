@@ -30,7 +30,7 @@ int main (void)
 {
 	ds3231_time_t t;
 	
-	//initLCD();
+	initLCD();
 	ds3231_basic_init();
 	interruptConfig();
 	
@@ -50,15 +50,24 @@ int main (void)
 	/* Read and display current time */
 		while(1)
 		{
+			
+			//ds3231_basic_init();
+			updateLCDScreen(1, "Basic init ", NONE, "NONE");
+			
 			setRegistersAlarm1();
+			updateLCDScreen(2, "RegAlarm Set ", NONE, "NONE");
 			
 			i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
 			i2c_write(DS3231_REG_CONTROL);
 			i2c_write(0x5);		// Set bit 0 and 2 (alarm 1 and interrupt)
 
+			updateLCDScreen(3, "Reg control set", NONE, "NONE");
+			
 			i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
 			i2c_write(DS3231_REG_STATUS);
 			i2c_write(0x0);
+			
+			updateLCDScreen(4, "Reg status set", NONE, "NONE");
 			
 			toggle = 0;
 			
@@ -83,7 +92,7 @@ int main (void)
 //   			updateLCDScreen(3, "Minutes:", t.minute, "NONE");
 //   			updateLCDScreen(4, "Second:", t.second, "NONE");
 			_delay_ms(4000);
-			
+			clearScreen();
 			enable_interrupts();
 			enterSleep();
 		}
