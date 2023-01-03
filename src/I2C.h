@@ -18,7 +18,8 @@
 	#define I2C_WRITE   0
 
 	/* Functions */
-	void write_i2c(unsigned char value);
+	void write_i2c(unsigned char reg, unsigned char value);
+	unsigned char read_i2c(unsigned char reg);
 	void i2c_init(void);
 	void i2c_stop(void);
 	unsigned char i2c_start(unsigned char addr);

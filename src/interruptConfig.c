@@ -25,5 +25,4 @@
  void interruptConfig()
  {
 	 DDRD &= ~(1<<PIND2);	// Input
-	 //PORTD |= (1<<PIND2);
  }

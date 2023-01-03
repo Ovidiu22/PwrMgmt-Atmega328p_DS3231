@@ -10,19 +10,44 @@
 
 /* *****************************************************************
 Name:		write_i2c()
-Inputs:		value to send over I2C
+Inputs:		Register and value to send over I2C
 Outputs:	none
 Description:Starts communication over I2C and send a value
 ******************************************************************** */
-void write_i2c(unsigned char value)
+void write_i2c(unsigned char reg, unsigned char value)
 {
 	/* Send START condition with SLA+W */
 	i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
+	/* Choose register */
+	i2c_write(reg);
 	/* Send data */
 	i2c_write(value);
 	/* Send stop condition */
 	i2c_stop();
+}
 
+/* *****************************************************************
+Name:		read_i2c()
+Inputs:		Register to read from
+Outputs:	register value
+Description:Reads the value of a register over SPI
+******************************************************************** */
+unsigned char read_i2c(unsigned char reg)
+{
+	uint8_t res = 0;
+	
+	/* Send START condition with SLA+W */
+	i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
+	/* Choose register */
+	i2c_write(reg);
+	/* Send START condition with SLA+R */
+	i2c_rep_start((DS3231_ADDRESS<<1)+I2C_READ);
+	/* Receive data */
+	res = i2c_readNak();
+	/* Send stop condition */
+	i2c_stop();
+	
+	return res;
 }
 
 /* *****************************************************************
