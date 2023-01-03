@@ -15,7 +15,7 @@ Description:configures the sleep mode
 void enterSleep(void)
 {
 	/* Set sleep mode */
-	set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+	set_sleep_mode(SLEEP_MODE_IDLE);
 
 	/* Enable sleep */
 	sleep_enable();

@@ -19,17 +19,21 @@
 
 void setRegistersAlarm1(void);
 void displayRegistersAlarm1(void);
-void blink_LED_PORTB(uint8_t, uint8_t);
 uint8_t dec2bcd(uint8_t);
+void blink_LED_PORTB(uint8_t, uint8_t);
+//void TURNOFF_PORTB(uint8_t);
+//void TURNON_PORTB(uint8_t);
+
+volatile int toggle = 1;
 
 int main (void)
 {
 	ds3231_time_t t;
 	
-	initLCD();
+	//initLCD();
 	ds3231_basic_init();
 	interruptConfig();
-
+	
 	/* Set alarm */
 	setRegistersAlarm1();
 	
@@ -37,36 +41,54 @@ int main (void)
 	i2c_write(DS3231_REG_CONTROL);
 	i2c_write(0x5);		// Set bit 0 and 2 (alarm 1 and interrupt)
 
-	enable_interrupts();
+	i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
+	i2c_write(DS3231_REG_STATUS);
+	i2c_write(0x0);
+
+	
 	//displayRegistersAlarm1();
 	/* Read and display current time */
-	while(1)
-	{
-#if 1		
-		i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
-		i2c_write(DS3231_REG_STATUS);
-		/* Send START condition with SLA+R */
-		i2c_rep_start((DS3231_ADDRESS<<1)+I2C_READ);
-		/* Receive data */
-		uint8_t st_reg = i2c_readNak();
-		
-		ds3231_basic_get_time(&t);
-		updateLCDScreen(1, "Alarm flag: ", (st_reg & 0x01), "NONE");
-		updateLCDScreen(2, "Hour: ", t.hour, "NONE");
-		updateLCDScreen(3, "Minutes:", t.minute, "NONE");
-		updateLCDScreen(4, "Second:", t.second, "NONE");
-		
-		if ((st_reg & 0x01) > 0)
+		while(1)
 		{
-			//_delay_ms(200);
+			setRegistersAlarm1();
+			
+			i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
+			i2c_write(DS3231_REG_CONTROL);
+			i2c_write(0x5);		// Set bit 0 and 2 (alarm 1 and interrupt)
+
 			i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
 			i2c_write(DS3231_REG_STATUS);
 			i2c_write(0x0);
 			
-		}
-#endif		
+			toggle = 0;
+			
+			i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
+			i2c_write(DS3231_REG_STATUS);
+			/* Send START condition with SLA+R */
+			i2c_rep_start((DS3231_ADDRESS<<1)+I2C_READ);
+			/* Receive data */
+			uint8_t st_reg = i2c_readNak();
 		
-	}
+			if ((st_reg & 0x01) > 0)
+			{
+				i2c_start((DS3231_ADDRESS<<1)+I2C_WRITE);
+				i2c_write(DS3231_REG_STATUS);
+				i2c_write(0x0);
+			}
+			//blink_LED_PORTB(PINB0, 10);
+		
+			//ds3231_basic_get_time(&t);
+ 			//updateLCDScreen(1, "ST: ", (st_reg & 0x01), "NONE");
+//   			updateLCDScreen(2, "Hour: ", t.hour, "NONE");
+//   			updateLCDScreen(3, "Minutes:", t.minute, "NONE");
+//   			updateLCDScreen(4, "Second:", t.second, "NONE");
+			_delay_ms(4000);
+			
+			enable_interrupts();
+			enterSleep();
+		}
+
+	
 	return 0;
 }
 
@@ -88,9 +110,6 @@ uint8_t dec2bcd(uint8_t val)
 }
 
 
-
-
-
 /* *****************************************************************
 Name:		Interrupt service routine 0
 Inputs:		none
@@ -99,23 +118,9 @@ Description:wakes up MCU when an external interrupt on pin PIND2 occurs
 ******************************************************************** */
 ISR(INT0_vect)
 {
-	cli();
-	blink_LED_PORTB(PINB0, 2);
-	//_delay_ms(100);
-	sei();
+	toggle = 1;
 }
 
-void blink_LED_PORTB(uint8_t pinNumber, uint8_t times)
-{
-	DDRB |= (1 << pinNumber);
-	for (uint8_t i = 0; i < times; i++)
-	{
-		PORTB |= ( 1 << pinNumber );
-		_delay_ms(100);
-		PORTB &= ~( 1 << pinNumber );
-		_delay_ms(100);
-	}
-}
 
 void setRegistersAlarm1(void)
 {
@@ -174,3 +179,29 @@ void displayRegistersAlarm1(void)
 	updateLCDScreen(4, "A1M4: ", A1M4, "NONE");
 
 }
+
+void blink_LED_PORTB(uint8_t pinNumber, uint8_t times)
+{
+	DDRB |= (1 << pinNumber);
+	for (uint8_t i = 0; i < times; i++)
+	{
+		PORTB |= ( 1 << pinNumber );
+		_delay_ms(100);
+		PORTB &= ~( 1 << pinNumber );
+		_delay_ms(100);
+	}
+}
+
+#if 0
+void TURNON_PORTB(uint8_t pinNumber)
+{
+	DDRB |= (1 << pinNumber);
+	PORTB |= ( 1 << pinNumber );
+}
+
+void TURNOFF_PORTB(uint8_t pinNumber)
+{
+	//DDRB |= (1 << pinNumber);
+	PORTB &= ~( 1 << pinNumber );
+}
+#endif

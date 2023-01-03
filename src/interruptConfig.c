@@ -11,9 +11,8 @@
  ******************************************************************** */
  void enable_interrupts()
  {
-	 cli();
-	 EIMSK |= (1<<INT0);
-	 EICRA |= (1<<ISC01);
+	 EIMSK |= (1<<INT0);	// Interrupt on pin D2
+	 EICRA |= (1<<ISC01);	// Falling condition
 	 sei();
  }
  
