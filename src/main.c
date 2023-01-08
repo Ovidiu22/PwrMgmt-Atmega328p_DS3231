@@ -5,11 +5,8 @@
 
 #define F_CPU 16000000UL   
 
-#include "driver_ds3231_interface.h"
 #include "driver_ds3231.h"
-#include "driver_ds3231_basic.h"
 #include "I2C.h"
-#include "LCD.h"
 #include "PowerManagement.h"
 #include "interruptConfig.h"
 #include <asf.h>

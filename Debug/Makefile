@@ -57,11 +57,8 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../src/driver_ds3231.c \
-../src/driver_ds3231_basic.c \
-../src/driver_ds3231_interface.c \
 ../src/I2C.c \
 ../src/interruptConfig.c \
-../src/LCD.c \
 ../src/PowerManagement.c \
 ../src/ASF/mega/boards/atmega328p_xplained_mini/init.c \
 ../src/main.c
@@ -75,44 +72,32 @@ ASM_SRCS +=
 
 OBJS +=  \
 src/driver_ds3231.o \
-src/driver_ds3231_basic.o \
-src/driver_ds3231_interface.o \
 src/I2C.o \
 src/interruptConfig.o \
-src/LCD.o \
 src/PowerManagement.o \
 src/ASF/mega/boards/atmega328p_xplained_mini/init.o \
 src/main.o
 
 OBJS_AS_ARGS +=  \
 src/driver_ds3231.o \
-src/driver_ds3231_basic.o \
-src/driver_ds3231_interface.o \
 src/I2C.o \
 src/interruptConfig.o \
-src/LCD.o \
 src/PowerManagement.o \
 src/ASF/mega/boards/atmega328p_xplained_mini/init.o \
 src/main.o
 
 C_DEPS +=  \
 src/driver_ds3231.d \
-src/driver_ds3231_basic.d \
-src/driver_ds3231_interface.d \
 src/I2C.d \
 src/interruptConfig.d \
-src/LCD.d \
 src/PowerManagement.d \
 src/ASF/mega/boards/atmega328p_xplained_mini/init.d \
 src/main.d
 
 C_DEPS_AS_ARGS +=  \
 src/driver_ds3231.d \
-src/driver_ds3231_basic.d \
-src/driver_ds3231_interface.d \
 src/I2C.d \
 src/interruptConfig.d \
-src/LCD.d \
 src/PowerManagement.d \
 src/ASF/mega/boards/atmega328p_xplained_mini/init.d \
 src/main.d
@@ -138,20 +123,6 @@ src/driver_ds3231.o: ../src/driver_ds3231.c
 	@echo Finished building: $<
 	
 
-src/driver_ds3231_basic.o: ../src/driver_ds3231_basic.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=ATMEGA328P_XPLAINED_MINI  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include" -I"../src/ASF/common/boards" -I"../src/ASF/mega/utils/preprocessor" -I"../src/ASF/mega/utils" -I"../src/ASF/common/utils" -I"../src/ASF/mega/boards" -I"../src/ASF/mega/boards/atmega328p_xplained_mini" -I"../src/ASF/common/services/gpio" -I"../src/ASF/common/services/ioport" -I"../src" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega328p" -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-src/driver_ds3231_interface.o: ../src/driver_ds3231_interface.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=ATMEGA328P_XPLAINED_MINI  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include" -I"../src/ASF/common/boards" -I"../src/ASF/mega/utils/preprocessor" -I"../src/ASF/mega/utils" -I"../src/ASF/common/utils" -I"../src/ASF/mega/boards" -I"../src/ASF/mega/boards/atmega328p_xplained_mini" -I"../src/ASF/common/services/gpio" -I"../src/ASF/common/services/ioport" -I"../src" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega328p" -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
 src/I2C.o: ../src/I2C.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -160,13 +131,6 @@ src/I2C.o: ../src/I2C.c
 	
 
 src/interruptConfig.o: ../src/interruptConfig.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=ATMEGA328P_XPLAINED_MINI  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include" -I"../src/ASF/common/boards" -I"../src/ASF/mega/utils/preprocessor" -I"../src/ASF/mega/utils" -I"../src/ASF/common/utils" -I"../src/ASF/mega/boards" -I"../src/ASF/mega/boards/atmega328p_xplained_mini" -I"../src/ASF/common/services/gpio" -I"../src/ASF/common/services/ioport" -I"../src" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega328p" -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
-	@echo Finished building: $<
-	
-
-src/LCD.o: ../src/LCD.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -DDEBUG -DBOARD=ATMEGA328P_XPLAINED_MINI  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include" -I"../src/ASF/common/boards" -I"../src/ASF/mega/utils/preprocessor" -I"../src/ASF/mega/utils" -I"../src/ASF/common/utils" -I"../src/ASF/mega/boards" -I"../src/ASF/mega/boards/atmega328p_xplained_mini" -I"../src/ASF/common/services/gpio" -I"../src/ASF/common/services/ioport" -I"../src" -I"../src/config"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g3 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega328p" -c -std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

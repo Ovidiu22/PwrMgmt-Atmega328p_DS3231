@@ -223,18 +223,6 @@
     <Compile Include="src\driver_ds3231.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\driver_ds3231_basic.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\driver_ds3231_basic.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\driver_ds3231_interface.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\driver_ds3231_interface.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="src\I2C.c">
       <SubType>compile</SubType>
     </Compile>
@@ -245,12 +233,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\interruptConfig.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\LCD.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\LCD.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\PowerManagement.c">

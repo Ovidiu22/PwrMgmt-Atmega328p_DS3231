@@ -6,7 +6,6 @@
 #include <compat/twi.h>
 #include "driver_ds3231.h"
 #include "I2C.h"
-#include "LCD.h"
 
 /* *****************************************************************
 Name:		write_i2c()
