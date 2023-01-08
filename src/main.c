@@ -17,7 +17,7 @@
 #include <util/delay.h>
 #include <avr/wdt.h>
 
-void setRegistersAlarm1(void);
+void setRegistersAlarm1(uint8_t);
 uint8_t dec2bcd(uint8_t);
 
 int main (void)
@@ -26,10 +26,10 @@ int main (void)
 	/* Initialization of interrupt */
 	interruptConfig();
 	/* Set alarm */
-	setRegistersAlarm1();
+	setRegistersAlarm1(7);
 	/* Reset status register */
 	write_i2c(DS3231_REG_STATUS, 0x0);
-	/* Set alarm 1 and interrupt */
+	/* Set alarm 1 and turn on the interrupt */
 	write_i2c(DS3231_REG_CONTROL, 0x5);
 
 	while(1)
@@ -81,10 +81,10 @@ ISR(INT0_vect)
 }
 
 
-void setRegistersAlarm1(void)
+void setRegistersAlarm1(uint8_t time_value)
 {
 	/*------- Alarm 1 ---------- */
-	write_i2c(DS3231_REG_ALARM1_SECOND, dec2bcd(7));
+	write_i2c(DS3231_REG_ALARM1_SECOND, dec2bcd(time_value));	// Set alarm 1 to trigger at the time time_value
 	write_i2c(DS3231_REG_ALARM1_MINUTE, 128);
 	write_i2c(DS3231_REG_ALARM1_HOUR, 128);
 	write_i2c(DS3231_REG_ALARM1_WEEK, 128);
